@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.startButton = new System.Windows.Forms.Button();
@@ -45,7 +46,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(19, 29);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -56,7 +57,7 @@
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(2, 2);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(328, 308);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -66,7 +67,7 @@
             // startButton
             // 
             this.startButton.Location = new System.Drawing.Point(21, 363);
-            this.startButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.startButton.Margin = new System.Windows.Forms.Padding(2);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(115, 34);
             this.startButton.TabIndex = 1;
@@ -78,7 +79,7 @@
             // 
             this.comboBoxSourceSelector.FormattingEnabled = true;
             this.comboBoxSourceSelector.Location = new System.Drawing.Point(21, 417);
-            this.comboBoxSourceSelector.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxSourceSelector.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxSourceSelector.Name = "comboBoxSourceSelector";
             this.comboBoxSourceSelector.Size = new System.Drawing.Size(247, 21);
             this.comboBoxSourceSelector.TabIndex = 2;
@@ -87,7 +88,7 @@
             // stopButton
             // 
             this.stopButton.Location = new System.Drawing.Point(153, 363);
-            this.stopButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.stopButton.Margin = new System.Windows.Forms.Padding(2);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(115, 34);
             this.stopButton.TabIndex = 3;
@@ -105,7 +106,8 @@
             this.Controls.Add(this.comboBoxSourceSelector);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Motion Detection";
             this.Load += new System.EventHandler(this.Form1_Load);
