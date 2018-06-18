@@ -13,6 +13,7 @@ using AForge.Video.DirectShow;
 using AForge.Imaging.Filters;
 using AForge.Imaging;
 using AForge.Vision;
+using AForge.Vision.Motion;
 
 
 
@@ -27,21 +28,26 @@ namespace Motion_Detection
             InitializeComponent();
         }
 
-        private VideoCaptureDevice videoSource;
-        private FilterInfoCollection captureDevice;
+        private FilterInfoCollection captureDevices;
+        private VideoCaptureDevice camera;
+        MotionDetector detector = new MotionDetector(
+            new TwoFramesDifferenceDetector(),
+            new MotionAreaHighlighting());
+
+
         Boolean video = false;
        
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            captureDevice = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            foreach (FilterInfo Device in captureDevice)
+            captureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            foreach (FilterInfo Device in captureDevices)
             {
                 comboBoxSourceSelector.Items.Add(Device.Name);
               
             }
             comboBoxSourceSelector.SelectedItem = 0;
-            videoSource = new VideoCaptureDevice();
+            camera = new VideoCaptureDevice();
             
             
         }
@@ -60,20 +66,21 @@ namespace Motion_Detection
             else if (video == true)
             {
 
-                videoSource.NewFrame += new NewFrameEventHandler(videoSource_StopFrame);
-                videoSource.Stop();
-                videoSource = new VideoCaptureDevice(captureDevice[comboBoxSourceSelector.SelectedIndex].MonikerString);
-                videoSource.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
-                videoSource.Start();
+                camera.NewFrame += new NewFrameEventHandler(videoSource_StopFrame);
+                camera.Stop();
+                camera = new VideoCaptureDevice(captureDevices[comboBoxSourceSelector.SelectedIndex].MonikerString);
+                camera.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
+                camera.Start();
             }
             
             else
             {
 
 
-                videoSource = new VideoCaptureDevice(captureDevice[comboBoxSourceSelector.SelectedIndex].MonikerString);
-                videoSource.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
-                videoSource.Start();
+                camera = new VideoCaptureDevice(captureDevices[comboBoxSourceSelector.SelectedIndex].MonikerString);
+                camera.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
+                camera.NewFrame += new NewFrameEventHandler(videoSource_MotionFrame);
+                camera.Start();
                 video = true;
             }
 
@@ -91,17 +98,30 @@ namespace Motion_Detection
         private void stopButton_Click(object sender, EventArgs e)
         {
             video = false;
-            videoSource.NewFrame += new NewFrameEventHandler(videoSource_StopFrame);
-            videoSource.Stop();
+            camera.NewFrame += new NewFrameEventHandler(videoSource_StopFrame);
+            camera.Stop();
+            
         }
 
         private void videoSource_StopFrame(object sender, NewFrameEventArgs eventArgs)
         {
 
-         pictureBox1.Image = null;
-         
-        }
+            camera.Stop();
+            pictureBox1.Image = null;
+            pictureBox2.Image = null;
 
+        }
+        private void videoSource_MotionFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap frame = (Bitmap)eventArgs.Frame.Clone();
+
+            if (detector.ProcessFrame(frame) > 0.02)
+            {
+                // ring alarm or do somethng else
+            }
+
+            pictureBox2.Image = frame;
+        }
 
     }
 }
