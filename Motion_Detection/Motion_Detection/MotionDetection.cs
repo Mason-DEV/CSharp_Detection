@@ -30,12 +30,15 @@ namespace Motion_Detection
         private VideoCaptureDevice videoSource;
         private FilterInfoCollection captureDevice;
         Boolean video = false;
+       
+
         private void Form1_Load(object sender, EventArgs e)
         {
             captureDevice = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo Device in captureDevice)
             {
                 comboBoxSourceSelector.Items.Add(Device.Name);
+              
             }
             comboBoxSourceSelector.SelectedItem = 0;
             videoSource = new VideoCaptureDevice();
@@ -45,15 +48,25 @@ namespace Motion_Detection
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            if (video == true)
+            object selectedItem = comboBoxSourceSelector.SelectedItem;
+   
+            if (selectedItem == null)
+            {
+                System.Windows.Forms.MessageBox.Show("You don't have a Video Device Selected" , "Oops");
+
+            }
+
+
+            else if (video == true)
             {
 
                 videoSource.NewFrame += new NewFrameEventHandler(videoSource_StopFrame);
                 videoSource.Stop();
                 videoSource = new VideoCaptureDevice(captureDevice[comboBoxSourceSelector.SelectedIndex].MonikerString);
                 videoSource.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
-                videoSource.Start();                
+                videoSource.Start();
             }
+            
             else
             {
 
