@@ -30,9 +30,8 @@ namespace Motion_Detection
 
         private FilterInfoCollection captureDevices;
         private VideoCaptureDevice camera;
-        MotionDetector detector = new MotionDetector(
-            new TwoFramesDifferenceDetector(),
-            new MotionAreaHighlighting());
+        MotionDetector detector = new MotionDetector(new TwoFramesDifferenceDetector(),
+        new MotionBorderHighlighting());
 
 
         Boolean video = false;
@@ -115,9 +114,11 @@ namespace Motion_Detection
         {
             Bitmap frame = (Bitmap)eventArgs.Frame.Clone();
 
-            if (detector.ProcessFrame(frame) > 0.02)
+            
+
+            if (detector.ProcessFrame(frame) > 0.04)
             {
-                // ring alarm or do somethng else
+               
             }
 
             pictureBox2.Image = frame;
